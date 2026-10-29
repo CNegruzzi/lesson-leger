@@ -1,0 +1,164 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lesson Ledger</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F6F3EE;--card:#fff;--ink:#17162B;--mute:#6B6A80;--line:rgba(23,22,43,.1);--brand:#6247FF;--brand2:#FF6FAE;--ok:#0FB37A;--okbg:rgba(15,179,122,.13);--due:#F2562B;--duebg:rgba(242,86,43,.13);--warn:#D49400;--warnbg:rgba(232,162,0,.16);--r:20px;--sh:0 1px 2px rgba(23,22,43,.06),0 8px 24px -12px rgba(23,22,43,.18)}
+@media(prefers-color-scheme:dark){:root{--bg:#0F0E1C;--card:#1A1930;--ink:#F1F0FA;--mute:#9D9CB8;--line:rgba(241,240,250,.12);--sh:0 8px 24px -12px rgba(0,0,0,.6)}}
+*{box-sizing:border-box}button,input{font:inherit;color:inherit}button{cursor:pointer}
+body{margin:0;min-height:100vh;color:var(--ink);font:15px/1.45 Figtree,system-ui,sans-serif;background:radial-gradient(50rem 28rem at 90% -8%,rgba(98,71,255,.2),transparent 60%),radial-gradient(40rem 24rem at -8% 6%,rgba(255,111,174,.18),transparent 60%),var(--bg)}
+h2,.big,.logo,.lbl,.av{font-family:'Bricolage Grotesque',system-ui,sans-serif}
+.wrap{max-width:1120px;margin:0 auto;padding:18px 16px 48px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.logo{display:flex;align-items:center;gap:10px;font-size:1.45rem;font-weight:800;letter-spacing:-.02em}
+.logo i{width:28px;height:28px;border-radius:10px;transform:rotate(-8deg);background:conic-gradient(from 200deg,var(--brand),var(--brand2),var(--warn),var(--brand))}
+.tools{display:flex;gap:6px}
+.ghost,.sec{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:.45rem .9rem;font-weight:500}
+.ghost:hover,.sec:hover{border-color:var(--brand)}.ghost:disabled{opacity:.4;cursor:default}.del{color:var(--due)}
+.pri{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border:0;border-radius:999px;padding:.55rem 1.1rem;font-weight:600;box-shadow:0 6px 16px -6px var(--brand)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh)}
+.stats{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:12px;margin-bottom:18px}
+.stat{padding:16px 18px}.stat small{color:var(--mute);display:block}
+.big{font-size:1.9rem;font-weight:800;letter-spacing:-.03em;line-height:1.15}
+.stat.hero{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border:0}.stat.hero small{color:rgba(255,255,255,.85)}
+.main{display:grid;grid-template-columns:270px 1fr;gap:18px;align-items:start}
+aside{position:sticky;top:12px}
+.chips{display:flex;gap:6px;margin-bottom:10px}
+.chip{border:1px solid var(--line);background:transparent;border-radius:999px;padding:.3rem .8rem;font-size:.85rem}
+.chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.stl{display:flex;flex-direction:column;gap:8px}
+.st{display:flex;align-items:center;gap:10px;text-align:left;width:100%;padding:10px;background:var(--card);border:1px solid var(--line);border-radius:16px}
+.st.on{border-color:var(--brand);box-shadow:0 0 0 2px rgba(98,71,255,.25)}
+.st span{flex:1;min-width:0}.st b{display:block}.st small{color:var(--mute)}
+.av{display:grid;place-items:center;flex:none;border-radius:32%;color:#fff;font-weight:800;background:linear-gradient(135deg,var(--a),var(--b))}
+.b{font-style:normal;font-size:.72rem;font-weight:700;padding:.15rem .5rem;border-radius:999px}
+.b.due{background:var(--duebg);color:var(--due)}.b.renew{background:var(--warnbg);color:var(--warn)}.b.ok{background:var(--okbg);color:var(--ok)}
+.form{padding:12px;margin-top:10px;display:flex;flex-direction:column;gap:8px}
+.form input{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:.45rem .6rem;min-width:0;width:100%}
+.row{display:flex;gap:8px;flex-wrap:wrap}.row>*{flex:1}
+.form label{font-size:.75rem;color:var(--mute);display:grid;gap:3px}
+.addst{width:100%;margin-top:8px;border:1.5px dashed var(--line);background:transparent;border-radius:16px;padding:.6rem;color:var(--mute)}
+.head{display:flex;align-items:center;gap:14px;padding:16px;flex-wrap:wrap}
+.hi{flex:1;min-width:0}.hi h2{margin:0;font-size:1.6rem;letter-spacing:-.02em}.hi p{margin:0;color:var(--mute)}.hb{display:flex;gap:6px}
+.bar{position:sticky;top:8px;z-index:5;display:flex;gap:8px;flex-wrap:wrap;padding:8px;margin:14px 0;border-radius:18px;border:1px solid var(--line);background:color-mix(in srgb,var(--card) 82%,transparent);backdrop-filter:blur(12px);box-shadow:var(--sh)}
+.blk{padding:16px;margin-bottom:14px;scroll-margin-top:84px}
+.bt{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:12px}
+.bm{flex:1;min-width:150px;display:grid}
+.bm input{border:0;background:transparent;border-radius:8px;padding:2px 4px}.bm input:hover,.bm input:focus{background:var(--bg)}
+.lbl{font-weight:800;font-size:1.15rem}.note{color:var(--mute);font-size:.85rem}
+.br{display:flex;align-items:center;gap:8px}
+.pay{border:0;border-radius:999px;padding:.4rem .9rem;font-weight:700}
+.pay.paid{background:var(--okbg);color:var(--ok)}.pay.due{background:var(--duebg);color:var(--due)}
+.amt{color:var(--mute)}.x{border:0;background:transparent;opacity:.5}.x:hover{opacity:1}
+.ring{width:54px;height:54px;flex:none}.rb,.rf{fill:none;stroke-width:5}.rb{stroke:var(--line)}
+.rf{stroke:var(--brand);stroke-linecap:round;stroke-dasharray:113.1;transform:rotate(-90deg);transform-origin:22px 22px;transition:stroke-dashoffset .4s}
+.full .rf{stroke:var(--ok)}.ring text{fill:var(--ink);font:700 11px Figtree,sans-serif}
+.tiles{display:flex;flex-wrap:wrap;gap:8px}
+.tile{display:inline-flex;align-items:center;gap:4px;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:3px 6px 3px 3px}
+.tile>button:first-child{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line);background:var(--card);color:var(--brand);font-weight:800;padding:0}
+.tile input{width:58px;border:0;background:transparent;padding:2px}
+.tile.on{background:linear-gradient(135deg,var(--brand),var(--brand2));border-color:transparent;color:#fff}
+.tile.on input{color:#fff}.tile.on input::placeholder{color:rgba(255,255,255,.7)}
+.rm{border:0;background:transparent;opacity:0;width:16px;padding:0}.tile:hover .rm{opacity:.7}
+@media(hover:none){.rm{opacity:.5}}
+.tile.add{border-style:dashed;padding:5px 12px;color:var(--mute);background:transparent}
+.renew{margin-top:12px;padding:10px 12px;border-radius:14px;background:var(--warnbg);display:flex;gap:10px;align-items:center;flex-wrap:wrap}.renew button{margin-left:auto}
+.empty{padding:28px;text-align:center;color:var(--mute);border:1.5px dashed var(--line);border-radius:var(--r)}
+.warn{background:var(--duebg);color:var(--due);padding:10px 14px;border-radius:12px;margin-bottom:12px}
+footer{text-align:center;color:var(--mute);font-size:.8rem;margin-top:28px}footer button{border:0;background:none;text-decoration:underline;color:inherit}
+#toast{position:fixed;left:50%;bottom:18px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--ink);color:var(--bg);padding:.6rem 1rem;border-radius:999px;transition:.2s;z-index:20;white-space:nowrap}
+#toast.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}#toast button{border:0;background:none;color:var(--brand2);font-weight:700;margin-left:8px}
+@media(max-width:800px){.main{grid-template-columns:1fr}aside{position:static}.stl{flex-direction:row;overflow-x:auto}.st{min-width:190px}.stats{grid-template-columns:1fr 1fr}.stat.hero{grid-column:1/-1}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head><body>
+<div class="wrap" id="app"></div><div id="toast"></div>
+<script>
+const KEY='ledger-students';
+const blanks=n=>Array.from({length:n},()=>({date:'',done:false}));
+const SEED=[{id:'example',name:'Example student',rate:100,currency:'EUR',lessonsPerCycle:8,cycles:[{id:'b1',label:'Block 1',paid:false,paidOn:'',note:'',lessons:blanks(8)}]}];
+let S=[],sel=null,flt='all',adding=false,editing=false,blocked=false,hist=[],tt;
+const $=q=>document.querySelector(q),uid=()=>Math.random().toString(36).slice(2,9);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const today=()=>{const d=new Date();return String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0')};
+const done=c=>c.lessons.filter(l=>l.done).length,full=c=>c.lessons.length>0&&done(c)===c.lessons.length;
+const money=(n,c)=>{const y={EUR:'€',USD:'$',GBP:'£',UAH:'₴'}[c];return y?y+(+n).toLocaleString():(+n).toLocaleString()+' '+c};
+const cur=()=>S.find(s=>s.id===sel);
+const newBlock=s=>({id:uid(),label:'Block '+(s.cycles.length+1),paid:false,paidOn:'',note:'',lessons:blanks(s.lessonsPerCycle)});
+const status=s=>{if(s.cycles.some(c=>!c.paid))return'due';const l=s.cycles[s.cycles.length-1];return(!l||full(l))?'renew':'ok'};
+const norm=a=>a.map(s=>({id:s.id||uid(),name:s.name||'Student',rate:+s.rate||0,currency:s.currency||'EUR',lessonsPerCycle:+s.lessonsPerCycle||4,cycles:(s.cycles||[]).map(c=>({id:c.id||uid(),label:c.label||'Block',paid:!!c.paid,paidOn:c.paidOn||'',note:c.note||'',lessons:(c.lessons||[]).map(l=>({date:l.date||'',done:!!l.done}))}))}));
+function load(){try{const r=JSON.parse(localStorage.getItem(KEY));return Array.isArray(r)?r:null}catch(e){blocked=true;return null}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){blocked=true}}
+function act(fn,msg){hist.push(JSON.stringify(S));if(hist.length>30)hist.shift();fn();save();render();if(msg)toast(msg,true)}
+function undo(){const h=hist.pop();if(!h)return;S=JSON.parse(h);if(!cur())sel=S[0]?S[0].id:null;save();render();toast('Undone')}
+function toast(m,u){const t=$('#toast');t.innerHTML=esc(m)+(u?'<button data-a="undo">Undo</button>':'');t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),4200)}
+const fin=c=>toast(full(c)?'Block complete 🎉 Time to renew':'Lesson ticked',true);
+const jump=()=>{const b=$('.blk');if(b)b.scrollIntoView({behavior:'smooth',block:'start'})};
+function exportData(){const u=URL.createObjectURL(new Blob([JSON.stringify(S,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=u;a.download='lesson-ledger-backup-'+new Date().toISOString().slice(0,10)+'.json';document.body.append(a);a.click();a.remove();URL.revokeObjectURL(u)}
+function av(s,z){let h=[...s.name].reduce((a,c)=>a+c.charCodeAt(0)*7,0)%360;return`<span class="av" style="--a:hsl(${h} 80% 60%);--b:hsl(${(h+40)%360} 80% 55%);width:${z}px;height:${z}px;font-size:${z*.45}px">${esc(s.name.charAt(0).toUpperCase()||'?')}</span>`}
+function ring(d,t){return`<svg class="ring" viewBox="0 0 44 44"><circle class="rb" cx="22" cy="22" r="18"/><circle class="rf" cx="22" cy="22" r="18" style="stroke-dashoffset:${113.1*(1-(t?Math.min(d/t,1):0))}"/><text x="22" y="26" text-anchor="middle">${d}/${t}</text></svg>`}
+function block(s,c){const d=done(c),t=c.lessons.length||s.lessonsPerCycle,f=full(c),last=s.cycles[s.cycles.length-1]===c;
+return`<article class="card blk ${f?'full':''}" data-c="${c.id}"><div class="bt">${ring(d,t)}
+<div class="bm"><input class="lbl" data-f="label" value="${esc(c.label)}" aria-label="Block name"><input class="note" data-f="note" value="${esc(c.note)}" placeholder="Add a note…"></div>
+<div class="br"><button class="pay ${c.paid?'paid':'due'}" data-a="pay">${c.paid?'Paid'+(c.paidOn?' · '+esc(c.paidOn):''):'Due'}</button><span class="amt">${money(s.rate,s.currency)}</span><button class="x" data-a="delB" title="Delete block">🗑</button></div></div>
+<div class="tiles">${c.lessons.map((l,i)=>`<span class="tile ${l.done?'on':''}"><button data-a="tick" data-i="${i}" aria-label="Toggle lesson">${l.done?'✓':''}</button><input data-f="date" data-i="${i}" value="${esc(l.date)}" placeholder="DD.MM"><button class="rm" data-a="rm" data-i="${i}" aria-label="Remove lesson">×</button></span>`).join('')}<button class="tile add" data-a="addL">+ lesson</button></div>
+${f&&last?`<div class="renew"><span>${c.paid?'Block finished 🎉 Ready for the next one.':'Block finished — payment still due.'}</span><button class="pri" data-a="renew">Start next block</button></div>`:''}</article>`}
+function detail(){const s=cur();if(!s)return'<div class="empty"><b>No student selected</b><p>Pick someone on the left or add a new student.</p></div>';
+const tot=s.cycles.reduce((n,c)=>n+done(c),0),bl=[...s.cycles].reverse();
+return`<div class="card head">${av(s,56)}<div class="hi"><h2>${esc(s.name)}</h2><p>${money(s.rate,s.currency)} per ${s.lessonsPerCycle} lessons · ${tot} logged</p></div><div class="hb"><button class="ghost" data-a="plan">${editing?'Done':'Edit plan'}</button><button class="ghost del" data-a="delS">Delete</button></div></div>
+${editing?`<div class="card form"><div class="row"><label>Name<input data-f="name" value="${esc(s.name)}"></label><label>Rate<input data-f="rate" type="number" min="0" value="${s.rate}"></label><label>Currency<input data-f="currency" list="cl" value="${esc(s.currency)}"></label><label>Lessons / block<input data-f="lpc" type="number" min="1" value="${s.lessonsPerCycle}"></label></div></div>`:''}
+<div class="bar"><button class="pri" data-a="addB">+ New payment block</button><button class="sec" data-a="next">✓ Next lesson done</button><button class="sec" data-a="today">+ Lesson today</button></div>
+${bl.map(c=>block(s,c)).join('')||'<div class="empty">No blocks yet — add the first payment block above.</div>'}`}
+function render(){const due={};let nd=0,nr=0,tot=0;
+S.forEach(s=>{s.cycles.forEach(c=>{tot+=done(c);if(!c.paid){due[s.currency]=(due[s.currency]||0)+s.rate;nd++}});if(status(s)==='renew')nr++});
+const dt=Object.keys(due).map(k=>money(due[k],k)).join(' · ')||'All paid',L={due:'Due',renew:'Renew',ok:'✓'};
+const list=S.filter(s=>flt==='all'||status(s)===flt).map(s=>{const t=status(s);return`<button class="st ${s.id===sel?'on':''}" data-a="sel" data-id="${s.id}">${av(s,38)}<span><b>${esc(s.name)}</b><small>${money(s.rate,s.currency)} / ${s.lessonsPerCycle}</small></span><em class="b ${t}">${L[t]}</em></button>`}).join('');
+$('#app').innerHTML=`<header class="top"><div class="logo"><i></i>Lesson Ledger</div><div class="tools"><button class="ghost" data-a="undo" ${hist.length?'':'disabled'}>↶ Undo</button><button class="ghost" data-a="export">Export</button><button class="ghost" data-a="import">Import</button><input type="file" id="file" accept=".json,application/json" hidden></div></header>
+${blocked?'<div class="warn">Browser storage is blocked here — export a backup before you close the page.</div>':''}
+<section class="stats"><div class="card stat hero"><small>Waiting to be paid</small><div class="big">${dt}</div><small>${nd} block${nd==1?'':'s'}</small></div><div class="card stat"><small>Ready to renew</small><div class="big">${nr}</div><small>student${nr==1?'':'s'}</small></div><div class="card stat"><small>Lessons logged</small><div class="big">${tot}</div><small>${S.length} student${S.length==1?'':'s'}</small></div></section>
+<div class="main"><aside><div class="chips">${[['all','All'],['due','Due'],['renew','Renew']].map(f=>`<button class="chip ${flt===f[0]?'on':''}" data-a="flt" data-v="${f[0]}">${f[1]}</button>`).join('')}</div>
+<div class="stl">${list||'<div class="empty">Nobody here 🎉</div>'}</div>
+${adding?`<div class="card form"><input id="nn" placeholder="Student name"><div class="row"><input id="nr" type="number" min="0" placeholder="Rate"><input id="nc" list="cl" value="EUR"></div><input id="nl" type="number" min="1" value="4" placeholder="Lessons per block"><div class="row"><button class="pri" data-a="saveS">Add student</button><button class="ghost" data-a="cancel">Cancel</button></div></div>`:'<button class="addst" data-a="add">+ Add student</button>'}</aside>
+<main>${detail()}</main></div>
+<datalist id="cl"><option>EUR<option>USD<option>GBP<option>UAH<option>RON</datalist>
+<footer>Saved in this browser only — use Export for a backup file. <button data-a="reset">Reset all data</button></footer>`}
+document.addEventListener('click',e=>{const el=e.target.closest('[data-a]');if(!el)return;
+const a=el.dataset.a,i=+el.dataset.i,s=cur(),ce=el.closest('[data-c]'),c=s&&ce?s.cycles.find(x=>x.id===ce.dataset.c):null;
+if(a==='undo')return undo();
+if(a==='sel'){sel=el.dataset.id;editing=false;return render()}
+if(a==='flt'){flt=el.dataset.v;return render()}
+if(a==='add'){adding=true;render();return $('#nn').focus()}
+if(a==='cancel'){adding=false;return render()}
+if(a==='export')return exportData();
+if(a==='import')return $('#file').click();
+if(a==='reset'){if(!el.dataset.on){el.dataset.on=1;el.textContent='Click again to erase everything';setTimeout(()=>{el.textContent='Reset all data';delete el.dataset.on},4000);return}return act(()=>{S=norm(SEED);sel=S[0].id},'Reset to the example')}
+if(a==='saveS'){const n=$('#nn').value.trim(),r=parseFloat($('#nr').value),l=parseInt($('#nl').value);
+if(!n||!(r>=0)||!(l>0))return toast('Enter a name, a rate and lessons per block');
+const id=uid(),cu=$('#nc').value.trim().toUpperCase()||'EUR';return act(()=>{S.push({id,name:n,rate:r,currency:cu,lessonsPerCycle:l,cycles:[]});sel=id;adding=false},n+' added')}
+if(!s)return;
+if(a==='plan'){editing=!editing;return render()}
+if(a==='delS')return act(()=>{S=S.filter(x=>x!==s);sel=S[0]?S[0].id:null;editing=false},'Student deleted');
+if(a==='addB'||a==='renew'){act(()=>{s.cycles.push(newBlock(s))},'New payment block added');return jump()}
+if(a==='next'){let t=null;for(let k=s.cycles.length-1;k>=0&&!t;k--){const l=s.cycles[k].lessons.find(x=>!x.done);if(l)t=[s.cycles[k],l]}
+if(!t)return toast('No open lessons — try “+ Lesson today”');
+act(()=>{t[1].done=true;if(!t[1].date)t[1].date=today()});return fin(t[0])}
+if(a==='today'){let b=s.cycles[s.cycles.length-1];
+act(()=>{if(!b){b=newBlock(s);s.cycles.push(b)}const l=b.lessons.find(x=>!x.date);if(l){l.date=today();l.done=true}else b.lessons.push({date:today(),done:true})});return fin(b)}
+if(!c)return;
+if(a==='pay')return act(()=>{c.paid=!c.paid;c.paidOn=c.paid?today():''},c.paid?'Marked as due':'Marked as paid');
+if(a==='delB')return act(()=>{s.cycles=s.cycles.filter(x=>x!==c)},'Block deleted');
+if(a==='tick'){act(()=>{const l=c.lessons[i];l.done=!l.done;if(l.done&&!l.date)l.date=today()});if(c.lessons[i].done)fin(c);return}
+if(a==='rm'){act(()=>{c.lessons.splice(i,1)});return}
+if(a==='addL'){act(()=>{c.lessons.push({date:'',done:false})});const q=document.querySelector('[data-c="'+c.id+'"] .tile:nth-last-child(2) input');if(q)q.focus()}
+});
+document.addEventListener('change',e=>{const el=e.target;
+if(el.id==='file'){const f=el.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const a=JSON.parse(r.result);if(!Array.isArray(a))throw 0;act(()=>{S=norm(a);sel=S[0]?S[0].id:null},'Backup imported')}catch(x){toast('That file is not a valid backup')}};r.readAsText(f);el.value='';return}
+const f=el.dataset.f,s=cur();if(!f||!s)return;const ce=el.closest('[data-c]'),c=ce?s.cycles.find(x=>x.id===ce.dataset.c):null;
+if(f==='date'&&c)c.lessons[+el.dataset.i].date=el.value.trim();
+else if(f==='label'&&c)c.label=el.value.trim()||c.label;
+else if(f==='note'&&c)c.note=el.value.trim();
+else if(f==='name')s.name=el.value.trim()||s.name;
+else if(f==='rate'){const v=parseFloat(el.value);if(v>=0)s.rate=v}
+else if(f==='currency')s.currency=el.value.trim().toUpperCase()||s.currency;
+else if(f==='lpc'){const v=parseInt(el.value);if(v>0)s.lessonsPerCycle=v}
+save()});
+const L0=load();S=norm(L0||SEED);sel=S[0]?S[0].id:null;render();
+</script></body></html>
